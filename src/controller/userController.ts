@@ -11,8 +11,26 @@ const createToken = (id : string | number) : string=>{
     return jwt.sign({id},jwtSecret);
 };
 
-const adminlogin = function(req :Request,res : Response) : void{
-
+const adminlogin = async function(req :Request,res : Response) : Promise<void>{
+    interface adminLoginRequestBody{
+        email : string;
+        password: string;
+    }
+    try{
+        const { email, password} = req.body as adminLoginRequestBody;
+        if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD){
+            const token : string = jwt.sign(email+password,jwtSecret);
+            res.status(200).json({success : true , token});
+        }
+        else{
+            res.status(401).json({success : true,message : "Invalid credentials"});
+        }
+    }
+    catch(error : unknown){
+        const error_message = (error instanceof Error) ? error.message : "An Unexpected Error Occured!";
+        console.log(error);
+        res.json({success:false,message : error_message});
+    }
 };
 const loginUser = function(){
 
