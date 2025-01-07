@@ -1,0 +1,1 @@
+{"root":["./environment.d.ts","./src/server.ts","./src/controller/usercontroller.ts","./src/routes/userroute.ts"],"version":"5.7.2"}
