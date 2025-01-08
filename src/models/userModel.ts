@@ -14,6 +14,6 @@ const UserSchema : Schema<IUser> = new mongoose.Schema({
     cartdata : {type : Object, default: {}}
 },{minimize : false});
 
-const UserModel : Model<IUser>= mongoose.models.user || mongoose.model<IUser>('User',UserSchema);
+const UserModel : Model<IUser>= mongoose.models.user || mongoose.model<IUser>('user',UserSchema);
 
 export default UserModel;
