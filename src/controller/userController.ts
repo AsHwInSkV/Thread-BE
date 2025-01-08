@@ -41,6 +41,13 @@ const loginUser = async function(req :Request,res : Response) : Promise<void>{
             email : string;
             password : string;
         }
+        interface IUser extends Document{
+            name : string;
+            email : string;
+            password : string;
+            cartdata : Record<string,any>;
+        }
+        
         try{
             const {email,password} = req.body as loginRequestBody;
             const user = await UserModel.findOne({email});
@@ -48,11 +55,29 @@ const loginUser = async function(req :Request,res : Response) : Promise<void>{
                 res.json({
                     sucess:false,
                     message : "User doesn't exists"
-                })
+                });
+            }else{
+                const isMatch = await bcrypt.compare(password,user.password);
+                if(isMatch){
+                    const token = createToken(user._id as string);
+                    res.json({
+                        sucess:true,
+                        token
+                    });
+                }
+                else{
+                    res.json({
+                        sucess:false,
+                        message:"Invalid Credentials"
+                    })
+                }
             }
+            
         }
-        catch(error){
-
+        catch(error : unknown){
+            const error_message = (error instanceof Error) ? error.message : "An Unexpected Error Occured!";
+            console.log(error);
+            res.json({success:false,message : error_message});
         }
 };
 const registerUser = async function(req : Request, res : Response) : Promise<void>{
