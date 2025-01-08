@@ -1,1 +1,1 @@
-{"root":["./environment.d.ts","./src/server.ts","./src/controller/usercontroller.ts","./src/routes/userroute.ts"],"version":"5.7.2"}
+{"root":["./environment.d.ts","./src/server.ts","./src/config/mongodbconnect.ts","./src/controller/usercontroller.ts","./src/models/usermodel.ts","./src/routes/userroute.ts"],"version":"5.7.2"}

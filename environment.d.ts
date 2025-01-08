@@ -4,5 +4,6 @@ declare namespace NodeJS{
         port : string;
         ADMIN_EMAIL : string;
         ADMIN_PASSWORD : string;
+        DATABASE_URI : string;
     }
 }

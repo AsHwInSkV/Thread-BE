@@ -5,7 +5,7 @@ import { Router } from "express";
 const userRouter : Router = express.Router();
 
 
-// userRouter.post('/register',registerUser);
+userRouter.post('/register',registerUser);
 // userRouter.post('/login',loginUser);
 userRouter.post('/admin',adminlogin);
 
