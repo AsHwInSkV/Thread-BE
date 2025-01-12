@@ -2,6 +2,7 @@ import express from 'express';
 import userRouter from "./routes/userRoute";
 import 'dotenv/config';
 import connectDB from './config/mongodbconnect';
+import productRoute from './routes/productRouter';
 
 
 const app = express();
@@ -12,5 +13,6 @@ connectDB();
 app.use(express.json());
 
 app.use('/api/user',userRouter);
+app.use('/api/product',productRoute);
 
 app.listen(port);
