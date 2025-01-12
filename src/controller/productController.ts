@@ -1,17 +1,19 @@
 import { Request, Response } from 'express';
+import {v2 as cloudinary} from 'cloudinary';
+import 'dotenv/config';
+import productModel from '../models/productModel';
 
 const addProduct = async (req:Request,res:Response) : Promise<void>=>{
-    interface productRequestBody{
-        name : string;
-        description : string;
-        price : number;
-        image : string[];
-        category : string;
-        subCategory : string;
-        sizes: string[];
-        bestSeller: boolean;
-        date : number;
-    };
+    // interface productRequestBody{
+    //     name : string;
+    //     description : string;
+    //     price : number;
+    //     image : string[];
+    //     category : string;
+    //     subCategory : string;
+    //     sizes: string[];
+    //     bestSeller: boolean;
+    // };
     
     interface MulterFile {
         fieldname: string;
@@ -32,8 +34,8 @@ const addProduct = async (req:Request,res:Response) : Promise<void>=>{
       }
 
     try{
-        const { name, description, price, category, subCategory, sizes, bestSeller } = req.body as productRequestBody;
-
+        const { name, description, price, category, subCategory, sizes, bestSeller } = req.body;
+        console.log(req.body.description);
         const files = req.files as MulterFiles;
 
         const image1 = files.image1 && files.image1[0];
@@ -42,7 +44,36 @@ const addProduct = async (req:Request,res:Response) : Promise<void>=>{
         const image4 = files.image4 && files.image4[0];
 
         const images = [image1,image2,image3,image4].filter((img)=>img!==undefined);
+        
+        const image_url :string[] = await Promise.all(
+            images.map(async (pic)=>{
+                let result = await cloudinary.uploader.upload(pic.path,{resource_type:"image"});
+                return result.secure_url;
+            })
+        );
 
+        const productData = {
+            name : name,
+            description :description,
+            price :Number(price),
+            category,
+            subCategory,
+            bestSeller : (bestSeller==="true")?true:false,
+            sizes:JSON.parse(sizes),
+            image: image_url,
+            date:Date.now()
+        }
+
+        console.log(productData);
+
+        const product = new productModel(productData);
+
+        await product.save();
+
+        res.json({
+            sucess : true,
+            message: "Product Added"
+        })
 
     }
     catch(error : unknown){
