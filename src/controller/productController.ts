@@ -4,16 +4,15 @@ import 'dotenv/config';
 import productModel from '../models/productModel';
 
 const addProduct = async (req:Request,res:Response) : Promise<void>=>{
-    // interface productRequestBody{
-    //     name : string;
-    //     description : string;
-    //     price : number;
-    //     image : string[];
-    //     category : string;
-    //     subCategory : string;
-    //     sizes: string[];
-    //     bestSeller: boolean;
-    // };
+    interface productRequestBody{
+        name : string;
+        description : string;
+        price : number;
+        category : string;
+        subCategory : string;
+        sizes: string;
+        bestSeller: string;
+    };
     
     interface MulterFile {
         fieldname: string;
@@ -34,7 +33,7 @@ const addProduct = async (req:Request,res:Response) : Promise<void>=>{
       }
 
     try{
-        const { name, description, price, category, subCategory, sizes, bestSeller } = req.body;
+        const { name, description, price, category, subCategory, sizes, bestSeller } = req.body as productRequestBody;
         console.log(req.body.description);
         const files = req.files as MulterFiles;
 
@@ -86,4 +85,22 @@ const addProduct = async (req:Request,res:Response) : Promise<void>=>{
     }
 }
 
-export {addProduct}
+const removeProduct = async (req:Request,res:Response) : Promise<void>=>{
+        try{
+            await productModel.findByIdAndDelete(req.body.id);
+            res.json({
+                sucess:true,
+                message: "Product deleted sucessfully!"
+            });
+        }
+        catch(error:unknown){
+            const error_message = (error instanceof Error)?error.message:"An unexpected error occured!"
+            console.log(error)
+            res.json({
+                sucess:false,
+                message:error_message
+            })
+        }
+}
+
+export {addProduct,removeProduct}
