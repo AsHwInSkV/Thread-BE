@@ -103,4 +103,45 @@ const removeProduct = async (req:Request,res:Response) : Promise<void>=>{
         }
 }
 
-export {addProduct,removeProduct}
+const singleProduct = async (req:Request,res:Response):Promise<void>=>{
+    try{
+        const {productId} = req.body;
+        const product = await productModel.findById(productId);
+        res.json({
+            sucess:true,
+            product
+        })
+    }
+    catch(error:unknown){
+        const error_message = (error instanceof Error)? error.message : "An unexpected error occured!";
+        console.log(error);
+        res.json({
+            sucess:false,
+            message : error_message
+        })
+    }
+
+    
+
+};
+
+const listProduct = async (req:Request,res:Response):Promise<void>=>{
+    try{
+        const products = await productModel.find({});
+        res.json({
+            sucess:true,
+            products
+        })
+    }
+    catch(error:unknown){
+        const error_message=(error instanceof Error)? error.message : "An Unexpected Error Occured!"
+        console.log(error);
+        res.json({
+            sucess:false,
+            message:error_message
+        })
+    }
+
+}
+
+export {addProduct,removeProduct,singleProduct,listProduct}
