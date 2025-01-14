@@ -4,6 +4,7 @@ import 'dotenv/config';
 import connectDB from './config/mongodbconnect';
 import productRoute from './routes/productRouter';
 import cloudinaryConnect from './config/cloudinary';
+import cartRoute from './routes/cartRouter';
 
 
 const app = express();
@@ -19,5 +20,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/user',userRouter);
 app.use('/api/product',productRoute);
+app.use('/api/cart',cartRoute);
 
 app.listen(port);
