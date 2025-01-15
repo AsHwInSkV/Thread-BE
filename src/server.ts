@@ -5,6 +5,7 @@ import connectDB from './config/mongodbconnect';
 import productRoute from './routes/productRouter';
 import cloudinaryConnect from './config/cloudinary';
 import cartRoute from './routes/cartRouter';
+import orderRoute from './routes/OrderRoute';
 
 
 const app = express();
@@ -21,5 +22,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/user',userRouter);
 app.use('/api/product',productRoute);
 app.use('/api/cart',cartRoute);
+app.use("/api/order",orderRoute);
 
 app.listen(port);
