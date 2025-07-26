@@ -1,12 +1,15 @@
-name : Build Project
+name: Build Project
+
 on:
   push:
-    branches: [main,products_feature]
+    branches: [main, products_feature]
   pull_request:
     branches: [main]
+
 jobs:
   build:
-    runs-on: unbuntu-latest .
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
