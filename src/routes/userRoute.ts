@@ -1,10 +1,9 @@
 import express from "express";
 import { adminlogin, loginUser, registerUser } from "../controller/userController";
 import { Router } from "express";
-import authAdmin from "../middlewares/adminAuth";
+import upload from "../middlewares/multer";
 
 const userRouter : Router = express.Router();
-
 
 userRouter.post('/register',registerUser);
 userRouter.post('/login',loginUser);
