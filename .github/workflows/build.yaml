@@ -2,7 +2,7 @@ name: Build Project
 
 on:
   push:
-    branches: [master, products_feature]
+    branches: [master, products_feature,devops]
   pull_request:
     branches: [master]
 
